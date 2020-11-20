@@ -47,8 +47,8 @@ type Engine interface {
 	// implementation.
 	NewTransaction(writable bool) (Transaction, error)
 
-	// Close the engine and stop creating any new transactions or commiting changes. If the engine
-	// is already closed, the ErrEngineAlreadyClosed error is returned.
+	// Close the engine and stop creating any new transactions or committing changes. If the engine
+	// is already closed, this method is a no-op.
 	Close() error
 }
 
@@ -59,7 +59,7 @@ type Engine interface {
 // transaction is read-only, any call to a write method must return the ErrTxReadOnly error.
 type Transaction interface {
 	// Commit commits the transaction and any change made during its lifetime. If the transaction
-	// has already rolled back or commited, the ErrTxAlreadyCompleted error is returned. If the
+	// has already rolled back or committed, the ErrTxAlreadyCompleted error is returned. If the
 	// engine is already closed, the ErrEngineAlreadyClosed error is returned.
 	Commit() error
 
@@ -91,7 +91,7 @@ type Transaction interface {
 	Iterate(pivot []byte, fn func(k, v []byte) error) error
 
 	// IterateReverse looks for the pivot and then goes through all the subsequent key value pairs
-	// in descreasing order and calls the given function for each pair.
+	// in decreasing order and calls the given function for each pair.
 	//
 	// If the given function returns an error, the iteration stops and returns that error.
 	// If the pivot is nil, iteration starts from the end.

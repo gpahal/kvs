@@ -57,7 +57,7 @@ func (e *engine) Close() error {
 	defer e.mu.Unlock()
 
 	if e.closed() {
-		return ErrEngineAlreadyClosed
+		return nil
 	}
 
 	close(e.closeCh)
